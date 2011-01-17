@@ -10,9 +10,11 @@
 
 int main() {
 
+	const std::size_t protein_count = 1000;
+
 	// Create a bucket of strings with TTLs
-	Proteins soup;
-	for(unsigned int i = 0; i < 1000; ++i)
+	Proteins soup(protein_count);
+	for(unsigned int i = 0; i < protein_count; ++i)
 		soup.push_back(Protein());
 	
 	// Generation loop

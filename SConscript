@@ -1,7 +1,7 @@
 # add additional user code [sub]directories to this list, relative to the repository root
 
 usrdirs = Split("""
-.
+src
 """)
 
 ### END USER MODIFIABLES ###
