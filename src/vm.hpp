@@ -3,8 +3,9 @@
 
 #include "bytearray.hpp"
 #include "state.hpp"
+#include "sandbox_fwd.hpp"
 
-signed long vm_run(const ByteArray &, state_type &);
+signed long vm_tester(const ByteArray &, Sandbox*);
 
 #endif
 

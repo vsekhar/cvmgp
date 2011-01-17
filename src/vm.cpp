@@ -18,7 +18,13 @@
 	Runs, replaces another org's dna with its own (100)
 */
 
-void vm_run_dna (const ByteArray &dna, state_type &state) {
+struct State {
+	State() : sandbox(0), actionflag(0) {}
+	Sandbox* sandbox;
+	unsigned int actionflag;
+};
+
+void vm_run_dna (const ByteArray &dna, State &state) {
 	// massive switch statement, etc.
 	ByteArray::const_iterator ip = dna.begin();
 	while(ip != dna.end()) {
@@ -27,43 +33,19 @@ void vm_run_dna (const ByteArray &dna, state_type &state) {
 			case 1: // do something
 					break;
 			// etc.
-			default: throw badopcode_error();
+			default: throw opcode_error();
 		}
 	}
 }
 
-signed long vm_tester(const ByteArray &dna, const state_type &state) {
-	// do some testing, return a ttl delta
+signed long vm_tester(const ByteArray &dna, Sandbox* sandbox) {
+	State state;
+	state.sandbox = sandbox;
+	try {
+		vm_run_dna(dna, state);
+	}
+	catch(opcode_error &e) {}
+	// test based on output of state and determine ttl delta
 	return 0;
-}
-
-void vm_thread (const ByteArray &dna, state_type &state) {
-	// Handles exceptions coming out of the switch statement
-	try vm_run_dna(dna, state);
-	catch (badopcode_error &e) {}
-	
-	
-	
-}
-
-signed long vm_run(const ByteArray &dna, state_type &state) {
-	signed long ttl_delta = 0;
-	pid_t child_id = vfork();
-	if(child_id) {	// parent
-		// monitor child and terminate if it takes too long
-		// sleep (n seconds)
-		// 
-	}
-	else {			// child
-		vm_thread(dna,state);
-		exit(0);
-		
-	}
-	
-	// run the program
-	// update state
-	// test for goals passed or failed
-	// ttl_delta = sum(goal_rewards) - sum(goal_penalties)
-	return 0; //TTL delta
 }
 

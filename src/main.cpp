@@ -7,12 +7,13 @@
 #include "vm.hpp"
 #include "state.hpp"
 #include "random.hpp"
+#include "sandbox.hpp"
+#include "exception.hpp"
 
 int main() {
 
-	const std::size_t protein_count = 1000;
-
-	// Create a bucket of strings with TTLs
+	const std::size_t protein_count = 1000000;
+	Sandbox sandbox;	// create before creating Proteins
 	Proteins soup(protein_count);
 	for(unsigned int i = 0; i < protein_count; ++i)
 		soup.push_back(Protein());
@@ -24,7 +25,13 @@ int main() {
 		// Run loop
 		for(int i = 0; i < 10; i++) {
 			unsigned int rand_idx = random_uint(0, soup.size()-1);
-			soup[rand_idx].ttl += vm_run(soup[rand_idx].dna, state);
+			try {
+				soup[rand_idx].ttl += sandbox.run(soup[rand_idx].dna);
+			}
+			catch(timeout_error &e) {
+				// timeout penalty
+				soup[rand_idx].ttl -= 1;
+			}
 		}
 
 		// Decay/stats loop

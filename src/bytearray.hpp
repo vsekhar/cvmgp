@@ -4,7 +4,13 @@
 #include <vector>
 
 typedef unsigned char byte;
-typedef std::vector<byte> ByteArray;
+
+struct ByteArray : public std::vector<byte> {
+	typedef std::vector<byte> baseType;
+	ByteArray() : std::vector<byte>() {}
+	ByteArray(std::size_t s) : std::vector<byte>(s) {}
+	ByteArray(byte*, std::size_t);
+};
 
 #endif
 
