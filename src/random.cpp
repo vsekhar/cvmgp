@@ -11,14 +11,5 @@ unsigned int random_uint(unsigned int min, unsigned int max) {
     return die();
 }
 
-ByteArray random_string(std::size_t min, std::size_t max) {
-	std::size_t length = random_uint(min, max);
-	ByteArray ret(length);
-	for(std::size_t i = 0; i < length; i++)
-		ret.push_back(random_uint(0, (1<<8)-1));
-
-	return ret;
-}
-
 boost::mt19937 generator(std::time(0));
 

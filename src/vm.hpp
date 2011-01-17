@@ -1,11 +1,26 @@
-#ifndef __vm_hpp__
-#define __vm_hpp__
+#include <string>
+#include <boost/python.hpp>
 
 #include "bytearray.hpp"
-#include "state.hpp"
-#include "sandbox_fwd.hpp"
 
-signed long vm_tester(const ByteArray &, Sandbox*);
+struct VMMessage {
+	std::string type;
+	std::string payload;
+}
 
-#endif
+class VM {
+	VM();
+
+	std::size_t _ip;
+	ByteArray _dna;
+	std::string _request;
+
+public:
+	void reset();
+	void set_dna(ByteArray);
+	bool done();
+	void run();
+	std::string get_request();
+	void put_response(std::string);
+};
 
