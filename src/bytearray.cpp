@@ -1,7 +1,13 @@
-#include <boost/python.hpp>
-
 #include "bytearray.hpp"
 #include "random.hpp"
+
+namespace std{
+std::ostream& operator<<(std::ostream& o, const ByteArray& b) {
+	std::string str;
+	std::copy(b.begin(), b.end(), std::back_inserter(str));
+	return o << str;
+}
+}
 
 ByteArray make_ByteArray(byte* src, std::size_t size) {
 	ByteArray ret;

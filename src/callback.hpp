@@ -9,7 +9,7 @@ struct CallBack {
 		_callable(::boost::python::incref(c))
 	{};
 	~CallBack() {
-		::boost::python::decref(c);
+		::boost::python::decref(_callable);
 	}
 	R operator()(A1) {
 		namespace bp = ::boost::python;
