@@ -1,2 +1,2 @@
-from _vmgp import *
+from ._vmgp import *
 
